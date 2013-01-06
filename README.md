@@ -16,6 +16,11 @@ The strategy for splitting the text is to find the interesting delimiters using 
 
 The testStatements.py and testStatements.sql files provide a simple test of the SQLStatements class.
 
+myIterator
+----------
+
+This is a very simple example of an iterator based on a generator that returns the Fibonacci numbers.  It is the model for the iterator in SQLStatements.
+
 SQLRunner
 ---------
 
