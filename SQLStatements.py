@@ -20,7 +20,6 @@ class SQLStatements :
     def __init__(self, input, bufsize=10000) :
         self.bufsize = bufsize
         rex = r';|\\*"|\n|#|/\*|\*/|`' + r"|\\*'|--\s"
-        print "rex=%s"%rex
         self.starttags = {'"' : '"', "'": "'", '/*': '*/', '`' :'`'}
         self.state = 'normal'
         self.pattern = re.compile(rex)
@@ -28,13 +27,16 @@ class SQLStatements :
         self.start = 0
         self.fh = input
         self.data = self.fh.read(self.bufsize)
+        self.stmts = self.statements()
 
 #
 # return our statements generator as the class iterator
-# since the generator is already an iterator we don't need a next function
 #
     def __iter__(self) :
         return self.statements()
+    
+    def next(self) :
+        return self.stmts.next()
     
 
 #
