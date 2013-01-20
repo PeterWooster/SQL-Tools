@@ -43,7 +43,7 @@ lineno = 1
 try:
     con = MySQLdb.connect(host=host, user=user,passwd=pw,db=db)
     cur = con.cursor()
-#     con.set_character_set(charset)
+    con.set_character_set(charset)
     print "disabling foreign key checks"
     cur.execute("set foreign_key_checks=0;")
 
