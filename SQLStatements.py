@@ -27,16 +27,16 @@ class SQLStatements :
         self.start = 0
         self.fh = input
         self.data = self.fh.read(self.bufsize)
-        self.stmts = self.statements()
+        self.next = self.statements().next
 
 #
 # return our statements generator as the class iterator
 #
     def __iter__(self) :
-        return self.statements()
+        return self
     
     def next(self) :
-        return self.stmts.next()
+        return self.next()
     
 
 #

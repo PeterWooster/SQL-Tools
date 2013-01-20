@@ -10,7 +10,7 @@
 # Each command must be on a single line in the file 
 #
  
-import MySQLdb, sys, os, SQLStatements
+import MySQLdb, sys, os, SQLStatements, codecs
 
 if len(sys.argv) > 5 :
     host = sys.argv[1] 
@@ -22,13 +22,18 @@ if len(sys.argv) > 5 :
         rows = int(sys.argv[6])
     else:
         rows = 100
-    print "Host=%s, Database=%s, User=%s, File=%s, Rows=%d" % (host, db,user,fname, rows)
+    if len(sys.argv) > 7 :
+        charset = sys.argv[7]
+    else :
+        charset = 'utf8'
+        
+    print "Host=%s, Database=%s, User=%s, File=%s, Rows=%d Charset=%s" % (host, db,user,fname, rows, charset)
 else:
     print "not enough arguments"
-    print "SQLRunner Host Database User Password File [Rows per commit]"
+    print "SQLRunner Host Database User Password File [Rows per commit] [charset]"
     sys.exit()
 
-fn = open(fname)
+fn = codecs.open(fname,'r',charset)
 statements = SQLStatements.SQLStatements(fn)
 con = None
 hasTransaction = 0
@@ -38,6 +43,7 @@ lineno = 1
 try:
     con = MySQLdb.connect(host=host, user=user,passwd=pw,db=db)
     cur = con.cursor()
+#     con.set_character_set(charset)
     print "disabling foreign key checks"
     cur.execute("set foreign_key_checks=0;")
 
@@ -68,7 +74,7 @@ except MySQLdb.Error, e:
         con.rollback()
         hasTransaction = 0
     print "Error %d: %s" % (e.args[0], e.args[1])
-    sys.exit(1)
+    con = None
 	
 finally:
     if con:
