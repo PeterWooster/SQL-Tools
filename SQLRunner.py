@@ -33,7 +33,9 @@ else:
     print "SQLRunner Host Database User Password File [Rows per commit] [charset]"
     sys.exit()
 
-fn = codecs.open(fname,'r',charset)
+#fn = codecs.open(fname,'r',charset)
+fn = open(fname)
+
 statements = SQLStatements.SQLStatements(fn)
 con = None
 hasTransaction = 0
