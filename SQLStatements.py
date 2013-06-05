@@ -72,8 +72,6 @@ class SQLStatements :
         end = m.end(0)
         token = self.data[m.start(0):end]
         near = self.data[m.end(0):10+end]
-# uncomment next line to debug fsm        
-#        print "state=%s, token=%s, end=%d" % (self.state, token, end) 
         if self.state == 'normal':
             if token == ';':
                 res = self.data[self.start:end]
